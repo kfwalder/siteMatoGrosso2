@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}🌿 Outdoors Mato Grosso{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .text-shadow-lg {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-green-50 to-green-100 flex flex-col"> <!-- flex flex-col para empurrar o footer pra baixo quando se tem pouco conteudo -->
+    <!-- Header -->
+    <header class="bg-gradient-to-br from-green-800 via-green-600 to-green-500 text-white {{ cssExtraHeader|default:"py-2" }} text-center relative overflow-hidden ">
+        {% block header1 %}{% endblock %}
+        <div class="container mx-auto px-5 relative z-10">
+            <h1 class="text-5xl md:text-6xl font-light text-shadow-lg animate-fade-in" style="animation-duration: 1s;">
+                <img src="static/imagens/icons8-outdoor.png" class="inline animate-fade-in" style="animation-duration: 3s;"><span class="ml-2">MATO GROSSO OUTDOOR</span>
+            </h1>
+            {% block header2 %}{% endblock %}
+        </div>
+    </header>
+
+
+    <!-- Navigation Menu -->
+    <nav class="bg-white shadow-md sticky top-0 z-40">
+        <div class="container mx-auto px-5">
+            <div class="flex justify-center">
+                <ul class="flex space-x-8 py-4">
+                    <li>
+                        <a href="/" class="text-green-700 hover:text-green-500 font-medium text-lg transition-colors duration-300 hover:underline">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="locais" class="text-green-700 hover:text-green-500 font-medium text-lg transition-colors duration-300 hover:underline">
+                            Locais
+                        </a>
+                    </li>
+                    <li>
+                        <a href="contato" class="text-green-700 hover:text-green-500 font-medium text-lg transition-colors duration-300 hover:underline">
+                            Contato
+                        </a>
+                    </li>
+                    <li>
+                        <a href="blog" class="text-green-700 hover:text-green-500 font-medium text-lg transition-colors duration-300 hover:underline">
+                            Blog
+                        </a>
+                    </li>
+                    <li>
+                        <a href="sobre" class="text-green-700 hover:text-green-500 font-medium text-lg transition-colors duration-300 hover:underline">
+                            Sobre
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- content -->
+    <section class="py-4 bg-gradient-to-b from-green-50 to-green-100 flex-grow"> <!-- flex-grow para empurrar o footer pra baixo quando se tem pouco conteudo -->
+        <div class="container mx-auto px-5">
+            <h2 class="text-4xl md:text-5xl font-light text-center text-green-800 mb-12">
+                {% block subtitulo %}{% endblock %}
+            </h2>
+            <div id="conteudo">
+                {% block content %} {% endblock %}
+            </div>
+        </div>
+    </section>    
+
+
+    <!-- Footer -->
+    <footer class="bg-green-800 text-white text-center py-8 mt-16">
+        <div class="container mx-auto px-5">
+            <p class="text-lg">
+                Outdoors Mato Grosso. Mostre sua marca para o mundo. Entre em contato
+                <a href="https://wa.me/5566996068288" target="_blank"><img src="static/imagens/icons8-whatsapp-48.png" alt="WhatsApp" class="inline w-6 h-6"></a>
+            </p>
+        </div>
+    </footer>
+
+    {% block script %} {% endblock %}
+</body>
+</html>
