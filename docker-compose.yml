@@ -10,4 +10,4 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     volumes:
-      - .:/app
+      - .:/volume1
