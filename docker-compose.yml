@@ -9,5 +9,6 @@ services:
       - "9000:8000"
     environment:
       - PYTHONUNBUFFERED=1
+      - TZ=America/Sao_Paulo
     volumes:
       - .:/volume1
