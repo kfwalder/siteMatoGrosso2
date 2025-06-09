@@ -4,9 +4,9 @@ services:
   web:
     build:
       context: https://github.com/kfwalder/siteMatoGrosso2.git
-      dockerfile: Dockerfile
+      dockerfile: DockerFile
     ports:
-      - "8000:8000"
+      - "9000:8000"
     environment:
       - PYTHONUNBUFFERED=1
     volumes:
