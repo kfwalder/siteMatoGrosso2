@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-p@s(vfibvu!9$c6*1+d^ql@xsk(9hvp^16p&c2+aw9+mca_)67
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['168.231.98.173', '127.0.0.1', 'matogrossooutdoors.com.br', 'app2.matogrossooutdoors.com.br', 'app3.matogrossooutdoors.com.br']
+ALLOWED_HOSTS = ['168.231.98.173', '127.0.0.1', 'matogrossooutdoors.com.br', 'app2.matogrossooutdoors.com.br', 'app4.matogrossooutdoors.com.br']
 
 
 # Application definition
