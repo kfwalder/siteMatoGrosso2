@@ -1,0 +1,9 @@
+siteMatoGrosso2/
+├── app/                   <- projeto Django (vamos criar)
+├── Dockerfile             <- para criar a imagem
+├── docker-compose.yml     <- para rodar no Coolify
+├── requirements.txt       <- dependências Python
+└── .dockerignore          <- para evitar enviar arquivos desnecessários
+   
+   siteMatoGrosso
+   
