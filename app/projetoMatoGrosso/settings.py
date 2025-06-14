@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['168.231.98.173', '127.0.0.1', 'www.matogrossooutdoors.com.br', 'matogrossooutdoors.com.br', 'app2.matogrossooutdoors.com.br', 'app4.matogrossooutdoors.com.br']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://matogrossooutdoors.com.br',
+    'https://www.matogrossooutdoors.com.br',
+]
 
 # Application definition
 
