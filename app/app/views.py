@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
 
+from django.core.paginator import Paginator
+
 
 # Create your views here.
 
@@ -18,8 +20,13 @@ def home(request):
     return HttpResponse(template.render(context, request))
 
 
-def locais(request):
-    return render(request, 'locais.html')
+def pontos(request):
+    pontos = Ponto.objects.all().order_by('id')
+    paginator = Paginator(pontos, 10)  # 10 por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'pontos.html', {'page_obj': page_obj})
+
 def contato(request):
     return render(request, 'contato.html')
 def blog(request):
@@ -72,15 +79,15 @@ def upload_csv(request):
                         #print(row_normalizado)  # Debug: Imprime a linha normalizada
                         try:
                             Ponto.objects.update_or_create(
-                                ponto=row_normalizado['ponto'],
+                                ponto=row_normalizado['ponto'].strip(),
                                 defaults={
                                     'tipo': row_normalizado['tipo'].upper().strip(),
-                                    'local': row_normalizado['local'],
-                                    'endereco': row_normalizado['endereço'],
-                                    'dimensao': row_normalizado['dimensão'],
-                                    'link': row_normalizado['link'],
-                                    'latitude': row_normalizado['latitude'],
-                                    'longitude': row_normalizado['longitude'],
+                                    'local': row_normalizado['local'].strip(),
+                                    'endereco': row_normalizado['endereço'].strip(),
+                                    'dimensao': row_normalizado['dimensão'].strip(),
+                                    'link': row_normalizado['link'].strip(),
+                                    'latitude': row_normalizado['latitude'].strip(),
+                                    'longitude': row_normalizado['longitude'].strip(),
                                 }
                             )
                         except (IntegrityError, ValidationError) as e:

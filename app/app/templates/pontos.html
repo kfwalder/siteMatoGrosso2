@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Pontos{% endblock %}
+{% block subtitulo %}Pontos{% endblock %}
+{% block content %}
+<p>Para mais pontos, entre em contato</p>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    {% for ponto in page_obj %}
+        <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer">
+            <div class="overflow-hidden">
+                <img
+                    src="{% static 'imagens_pontos/' %}{{ ponto.link }}.webp"
+                    alt="{{ ponto.local }}"
+                    class="w-full h-64 object-cover transition-transform duration-300 hover:scale-105"
+                    loading="lazy"
+                />
+            </div>
+            <div class="p-6 text-center">
+                <h3 class="text-xl font-semibold text-green-800 mb-2">
+                    {{ ponto.local }}
+                </h3>
+                <p class="text-green-600 text-sm leading-relaxed">
+                    {{ ponto.endereco }}
+                </p>
+            </div>
+        </div>
+    {% empty %}
+        <p class="col-span-full text-center text-gray-600">Nenhum ponto encontrado.</p>
+    {% endfor %}
+</div>
+
+<!-- Paginação -->
+<div class="mt-6 flex flex-wrap justify-center items-center gap-2 text-sm">
+    {% if page_obj.has_previous %}
+        <a href="?page=1" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300">« Primeiro</a>
+        <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300">‹ Anterior</a>
+    {% endif %}
+
+    <span class="px-4 py-1 bg-blue-500 text-white rounded">
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300">Próxima ›</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300">Última »</a>
+    {% endif %}
+</div>
+
+{% endblock %}
