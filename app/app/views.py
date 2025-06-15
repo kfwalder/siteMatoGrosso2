@@ -15,7 +15,7 @@ from django.core.paginator import Paginator
 def home(request):
     template = loader.get_template('home.html')
     context = {
-        'cssExtraHeader': 'py-16',
+        'cssExtraHeader': 'py-4',
     }
     return HttpResponse(template.render(context, request))
 
