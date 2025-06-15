@@ -22,7 +22,7 @@ def home(request):
 
 def pontos(request):
     pontos = Ponto.objects.all().order_by('id')
-    paginator = Paginator(pontos, 10)  # 10 por página
+    paginator = Paginator(pontos, 12)  # 12 por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'pontos.html', {'page_obj': page_obj})
