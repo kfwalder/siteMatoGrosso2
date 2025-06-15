@@ -41,9 +41,22 @@
     <header class="bg-gradient-to-br from-green-800 via-green-600 to-green-500 text-white {{ cssExtraHeader|default:"py-2" }} text-center relative overflow-hidden ">
         {% block header1 %}{% endblock %}
         <div class="container mx-auto px-5 relative z-10">
+
+            <!-- bkp 
             <h1 class="text-5xl md:text-6xl font-light text-shadow-lg animate-fade-in" style="animation-duration: 1s;">
-                <img src="static/imagens/logo.png" class="inline animate-fade-in" style="animation-duration: 3s;" width="120" height="120"><span class="ml-2">MATO GROSSO OUTDOORS</span>
+                <img src="static/imagens/logo.png" class="inline animate-fade-in" style="animation-duration: 3s;" width="120" height="120">
+                <span class="ml-2">MATO GROSSO OUTDOORS</span>
             </h1>
+            -->
+
+            <h1 class="text-5xl md:text-6xl font-light text-shadow-lg animate-fade-in flex flex-col md:flex-row items-center justify-center text-center md:text-left" style="animation-duration: 1s;">
+                <img src="static/imagens/logo.png"
+                    class="animate-fade-in w-28 h-28 mb-2 md:mb-0 md:mr-4"
+                    style="animation-duration: 3s;"
+                    width="120" height="120">
+                <span>MATO GROSSO OUTDOORS</span>
+            </h1>
+            
             {% block header2 %}{% endblock %}
         </div>
     </header>
