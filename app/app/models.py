@@ -23,12 +23,12 @@ class Ponto(models.Model):
     )
     
     ponto = models.CharField(max_length=20)
-    local = models.CharField(max_length=100)
-    endereco = models.CharField(max_length=255)
-    dimensao = models.CharField(max_length=20)
-    link = models.URLField()
-    latitude = models.CharField(max_length=20)
-    longitude = models.CharField(max_length=20)
+    local = models.CharField(max_length=100, null=True, blank=True)  # Agora opcional
+    endereco = models.CharField(max_length=255, null=True, blank=True)
+    dimensao = models.CharField(max_length=20, null=True, blank=True)
+    link = models.URLField(null=True, blank=True)
+    latitude = models.CharField(max_length=20, null=True, blank=True)
+    longitude = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
         return f'{self.ponto} - {self.local}'

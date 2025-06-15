@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Upload CSV{% endblock %}
+{% block subtitulo %}Importar aquivo CSV com os pontos{% endblock %}
+{% block content %}
+
+    {% if mensagem_erro %}
+        <p style="color: red;">{{ mensagem_erro|safe }}</p>
+    {% endif %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="text-green-600 mb-2">{{ message|safe }}</p>
+        {% endfor %}
+    {% endif %}    
+    
+    <form method="post" enctype="multipart/form-data">
+         {% csrf_token %}
+        {{ form.as_p }}
+        <br>
+        <button type="submit" name="importar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Importar</button>
+    </form>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <br>
+        <button type="submit" name="apagar" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg shadow-sm transition duration-300" onclick="return confirm('Tem certeza que deseja apagar todos os pontos?');">
+            Apagar todos os pontos
+        </button>
+    </form>
+
+{% endblock %}
