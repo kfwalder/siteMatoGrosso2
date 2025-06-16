@@ -56,4 +56,4 @@ class ImagemUpload(models.Model):
 def apagar_arquivo_media(sender, instance, **kwargs):
     if instance.imagem and os.path.isfile(instance.imagem.path):
         os.remove(instance.imagem.path)
-        
+
