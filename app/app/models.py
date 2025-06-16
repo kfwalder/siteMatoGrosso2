@@ -1,4 +1,7 @@
+import os
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_delete
 
 class Ponto(models.Model):
     TIPO_CHOICES = [
@@ -33,3 +36,24 @@ class Ponto(models.Model):
     def __str__(self):
         return f'{self.ponto} - {self.local}'
     
+
+class ImagemUpload(models.Model):
+    imagem = models.ImageField(upload_to='imagens_upload/')  # pasta dentro de /media/
+    data_upload = models.DateTimeField(auto_now_add=True)
+
+    def delete(self, *args, **kwargs):
+        # Remove o arquivo do sistema de arquivos
+        if self.imagem and os.path.isfile(self.imagem.path):
+            os.remove(self.imagem.path)
+        # Apaga o registro do banco
+        super().delete(*args, **kwargs)
+        
+    def __str__(self):
+        return self.imagem.name
+
+
+@receiver(post_delete, sender=ImagemUpload)
+def apagar_arquivo_media(sender, instance, **kwargs):
+    if instance.imagem and os.path.isfile(instance.imagem.path):
+        os.remove(instance.imagem.path)
+        

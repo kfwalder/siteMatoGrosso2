@@ -1,4 +1,5 @@
 from django import forms
+from .models import ImagemUpload
 
 class UploadCSVForm(forms.Form):
     arquivo = forms.FileField(
@@ -9,3 +10,8 @@ class UploadCSVForm(forms.Form):
             }
         )
     )
+
+class ImagemUploadForm(forms.ModelForm):
+    class Meta:
+        model = ImagemUpload
+        fields = ['imagem']

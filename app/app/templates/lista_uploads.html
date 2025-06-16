@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}UplLista de Imagens{% endblock %}
+{% block subtitulo %}UplLista de Imagens{% endblock %}
+{% block content %}
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <h2 class="text-2xl font-semibold mb-6 text-center">Imagens Enviadas</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {% for img in imagens %}
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden p-4 flex flex-col items-center">
+        <img src="{{ img.imagem.url }}" alt="Imagem" class="w-full h-48 object-cover rounded-md mb-4">
+        <p class="text-sm text-gray-600">{{ img.data_upload|date:"d/m/Y H:i" }}</p>
+        <a href="{{ img.imagem.url }}" class="text-blue-600 text-sm break-all mt-1 hover:underline" target="_blank">
+          {{ img.imagem.url }}
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

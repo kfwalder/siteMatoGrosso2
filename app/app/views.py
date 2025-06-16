@@ -1,13 +1,14 @@
 import csv
 from django.shortcuts import redirect, render, HttpResponse
 from django.template import loader
-from .forms import UploadCSVForm
-from .models import Ponto
+from .forms import UploadCSVForm, ImagemUploadForm 
+from .models import Ponto, ImagemUpload
 from django.contrib import messages
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
 
 from django.core.paginator import Paginator
+
 
 
 # Create your views here.
@@ -119,3 +120,22 @@ def upload_csv(request):
 
 def upload_sucesso(request):
     return render(request, 'upload_sucesso.html')
+
+
+
+def upload_imagem(request):
+    if request.method == 'POST':
+        form = ImagemUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_uploads')  # ou uma página de sucesso
+    else:
+        form = ImagemUploadForm()
+    return render(request, 'upload.html', {'form': form})
+
+def lista_uploads(request):
+    imagens = ImagemUpload.objects.all()
+    return render(request, 'lista_uploads.html', {'imagens': imagens})
+
+def secrets(request):
+    return render(request, 'secrets.html')
