@@ -31,7 +31,6 @@ class Ponto(models.Model):
     )
     
     ponto = models.CharField(max_length=20)
-    local = models.CharField(max_length=100, null=True, blank=True)  # Agora opcional
     endereco = models.CharField(max_length=255, null=True, blank=True)
     dimensao = models.CharField(max_length=20, null=True, blank=True)
     link = models.CharField(null=True, blank=True)
@@ -42,7 +41,7 @@ class Ponto(models.Model):
 
 
     def __str__(self):
-        return f'{self.ponto} - {self.local}'
+        return f'{self.ponto} - {self.local_fk}'
     
 
 class ImagemUpload(models.Model):

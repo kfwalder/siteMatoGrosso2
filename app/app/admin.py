@@ -5,8 +5,8 @@ from .models import Ponto, Local, ImagemUpload  # Import the Ponto model
 
 @admin.register(Ponto)
 class Ponto(admin.ModelAdmin):
-    list_display = ('id', 'ponto', 'local', 'tipo', 'dimensao')  # O que vai aparecer na listagem
-    search_fields = ('ponto', 'local', 'endereco')              # Para facilitar buscas
+    list_display = ('id', 'ponto', 'local_fk', 'tipo', 'dimensao')  # O que vai aparecer na listagem
+    search_fields = ('ponto', 'local_fk', 'endereco')              # Para facilitar buscas
 
 @admin.register(ImagemUpload)
 class ImagemUpload(admin.ModelAdmin):
