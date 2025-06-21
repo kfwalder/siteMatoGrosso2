@@ -1,4 +1,5 @@
-/app/static/imagens_pontos/
+app/static/imagens_pontos/
+app/media/imagens_upload/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
