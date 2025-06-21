@@ -3,6 +3,11 @@ from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_delete
 
+class Local(models.Model):
+    local = models.CharField(max_length=100, null=True, blank=True)  # Agora opcional
+    def __str__(self):
+        return f'{self.local}'
+
 class Ponto(models.Model):
     TIPO_CHOICES = [
         ('AEROPORTO', 'AEROPORTO'),
@@ -29,9 +34,12 @@ class Ponto(models.Model):
     local = models.CharField(max_length=100, null=True, blank=True)  # Agora opcional
     endereco = models.CharField(max_length=255, null=True, blank=True)
     dimensao = models.CharField(max_length=20, null=True, blank=True)
-    link = models.URLField(null=True, blank=True)
+    link = models.CharField(null=True, blank=True)
     latitude = models.CharField(max_length=20, null=True, blank=True)
     longitude = models.CharField(max_length=20, null=True, blank=True)
+    local_fk = models.ForeignKey(Local, null=True, blank=True, on_delete=models.SET_NULL)
+    #teste = models.CharField(max_length=20, null=True, blank=True)
+
 
     def __str__(self):
         return f'{self.ponto} - {self.local}'
