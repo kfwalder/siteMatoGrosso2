@@ -8,7 +8,7 @@ from django.db import IntegrityError
 from django.core.exceptions import ValidationError
 
 from django.core.paginator import Paginator
-
+from django.db.models import Count
 
 
 # Create your views here.
@@ -37,7 +37,10 @@ def pontos(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    locais_disponiveis = Local.objects.order_by('prioridade')
+    #locais_disponiveis = Local.objects.order_by('prioridade')
+    locais_disponiveis = Local.objects.annotate(
+        total_pontos=Count('ponto')
+    ).order_by('prioridade')    
 
     return render(request, 'pontos.html', {
         'page_obj': page_obj,

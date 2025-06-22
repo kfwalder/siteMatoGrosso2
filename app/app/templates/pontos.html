@@ -11,11 +11,13 @@
         <option value="">Todos</option>
         {% for local in locais_disponiveis %}
             <option value="{{ local.id }}" {% if local.id == local_selecionado %}selected{% endif %}>
-                {{ local.local }}
+                {{ local.local }} ({{ local.total_pontos }})
             </option>
         {% endfor %}
     </select>
 </form>
+
+
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
     {% for ponto in page_obj %}
