@@ -32,7 +32,7 @@ def pontos(request):
     if local_id:
         pontos = pontos.filter(local_fk_id=local_id)
 
-    pontos = pontos.order_by('local_fk__prioridade', 'id')
+    #pontos = pontos.order_by('local_fk__prioridade', 'id')
 
     paginator = Paginator(pontos, 12)  # 12 por página
     page_number = request.GET.get('page')
@@ -179,3 +179,30 @@ def lista_uploads(request):
 
 def secrets(request):
     return render(request, 'secrets.html')
+
+def testeMap(request):
+    # Primeiro filtro no banco
+    pontos_qs = Ponto.objects.filter(
+        latitude__isnull=False,
+        longitude__isnull=False
+    ).exclude(
+        latitude='',
+        longitude=''
+    )
+
+    # Agora validação dos valores no Python
+    pontos = []
+    for p in pontos_qs:
+        try:
+            lat = float(p.latitude)
+            lng = float(p.longitude)
+            if (-90 <= lat <= 90 and -180 <= lng <= 180 and lat != 0 and lng != 0):
+                pontos.append(p)
+        except (ValueError, TypeError):
+            # Ignora se não for número válido
+            continue
+
+    return render(request, 'testeMap.html', {
+        'pontos': pontos,
+    })
+
