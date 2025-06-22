@@ -41,7 +41,11 @@
       function initMap() {
         const map = new google.maps.Map(document.getElementById("map"), {
           zoom: 4,
-          center: { lat: -15, lng: -47 }
+          center: { lat: -15, lng: -47 },
+          zoomControl: true,        // Ativa o controle de zoom (default true, mas vamos garantir)
+          zoomControlOptions: {
+            position: google.maps.ControlPosition.RIGHT_CENTER // Posição dos controles
+          }
         });
 
         const infoWindow = new google.maps.InfoWindow();
