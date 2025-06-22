@@ -32,7 +32,6 @@ def pontos(request):
     if local_id:
         pontos = pontos.filter(local_fk_id=local_id)
 
-
     pontos = pontos.order_by('local_fk__prioridade', 'id')
 
     paginator = Paginator(pontos, 12)  # 12 por página
@@ -42,7 +41,7 @@ def pontos(request):
     #locais_disponiveis = Local.objects.order_by('prioridade')
     locais_disponiveis = Local.objects.annotate(
         total_pontos=Count('ponto')
-    ).order_by('prioridade')    
+    ).order_by('-total_pontos', 'local')  # ordena do maior para menor
 
     return render(request, 'pontos.html', {
         'page_obj': page_obj,
@@ -99,9 +98,22 @@ def upload_csv(request):
                 else:
                     dict_reader = csv.DictReader(decoded_file, fieldnames=CABEÇALHO_ESPERADO, delimiter=';')
                     next(dict_reader) # Pular a primeira linha manualmente
+                    pontos_vistos = set()
+
                     for row in dict_reader:
                         row_normalizado = {k.lower(): v.strip() for k, v in row.items()}
                         #print(row_normalizado)  # Debug: Imprime a linha normalizada
+
+                        # Verifica se já vimos esse ponto no mesmo arquivo
+                        ponto_nome = row_normalizado['ponto'].strip()
+                        if ponto_nome in pontos_vistos:
+                            linhas_com_erro.append({
+                                'linha': row_normalizado,
+                                'erro': f"Ponto duplicado no arquivo: '{ponto_nome}'"
+                            })
+                            continue
+                        pontos_vistos.add(ponto_nome)
+
                         try:
 
                             nome_local = row_normalizado['local']
