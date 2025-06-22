@@ -2,7 +2,7 @@ import csv
 from django.shortcuts import redirect, render, HttpResponse
 from django.template import loader
 from .forms import UploadCSVForm, ImagemUploadForm 
-from .models import Ponto, ImagemUpload
+from .models import Ponto, Local, ImagemUpload
 from django.contrib import messages
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
@@ -22,11 +22,28 @@ def home(request):
 
 
 def pontos(request):
-    pontos = Ponto.objects.all().order_by('id')
+    #pontos = Ponto.objects.all().order_by('id')
+    #pontos = Ponto.objects.select_related('local_fk').order_by('local_fk__prioridade', 'id')
+
+    local_id = request.GET.get('local')  # pegando o filtro da URL
+    pontos = Ponto.objects.select_related('local_fk')
+    
+    if local_id:
+        pontos = pontos.filter(local_fk_id=local_id)
+
+    pontos = pontos.order_by('local_fk__prioridade', 'id')
+
     paginator = Paginator(pontos, 12)  # 12 por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'pontos.html', {'page_obj': page_obj})
+
+    locais_disponiveis = Local.objects.order_by('prioridade')
+
+    return render(request, 'pontos.html', {
+        'page_obj': page_obj,
+        'locais_disponiveis': locais_disponiveis,
+        'local_selecionado': int(local_id) if local_id else None,
+    })
 
 def contato(request):
     return render(request, 'contato.html')
@@ -76,14 +93,18 @@ def upload_csv(request):
                     dict_reader = csv.DictReader(decoded_file, fieldnames=CABEÇALHO_ESPERADO, delimiter=';')
                     next(dict_reader) # Pular a primeira linha manualmente
                     for row in dict_reader:
-                        row_normalizado = {k.lower(): v for k, v in row.items()}
+                        row_normalizado = {k.lower(): v.strip() for k, v in row.items()}
                         #print(row_normalizado)  # Debug: Imprime a linha normalizada
                         try:
+
+                            nome_local = row_normalizado['local']
+                            local_obj, _ = Local.objects.get_or_create(local=nome_local)
+
                             Ponto.objects.update_or_create(
                                 ponto=row_normalizado['ponto'].strip(),
                                 defaults={
                                     'tipo': row_normalizado['tipo'].upper().strip(),
-                                    'local': row_normalizado['local'].strip(),
+                                    'local_fk': local_obj,
                                     'endereco': row_normalizado['endereço'].strip(),
                                     'dimensao': row_normalizado['dimensão'].strip(),
                                     'link': row_normalizado['link'].strip(),

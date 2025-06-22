@@ -5,6 +5,8 @@ from django.db.models.signals import post_delete
 
 class Local(models.Model):
     local = models.CharField(max_length=100, null=True, blank=True)  # Agora opcional
+    prioridade = models.IntegerField(default=99999, null=True, blank=True)  # Adicionando campo de prioridade
+
     def __str__(self):
         return f'{self.local}'
 

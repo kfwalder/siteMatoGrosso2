@@ -15,5 +15,6 @@ class ImagemUpload(admin.ModelAdmin):
 
 @admin.register(Local)
 class Local(admin.ModelAdmin):
-    list_display = ['local']  # O que vai aparecer na listagem
+    list_display = ('local', 'prioridade')  # O que vai aparecer na listagem
+    list_filter = ['prioridade']  # O que vai aparecer na listagem
     search_fields = ['local']              # Para facilitar buscas
