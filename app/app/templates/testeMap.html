@@ -9,10 +9,16 @@
         height: 100vh;
         width: 100%;
       }
+      .infowindow-content {
+        min-width: 200px;
+        max-width: 300px; /* você pode ajustar conforme quiser */
+      }
       .infowindow-img {
-        max-width: 150px;
+        width: 100%;
+        height: auto;
         display: block;
       }
+
     </style>
   </head>
   <body>
@@ -28,9 +34,11 @@
           lat: {{ ponto.latitude }},
           lng: {{ ponto.longitude }},
           info: `
-            <strong>Cidade: {{ ponto.local_fk }}</strong><br>
-            Endereço: {{ ponto.endereco }} #{{ ponto.ponto }}<br>
-            <img class="infowindow-img" id="lazy-img-{{ forloop.counter0 }}">
+            <div class="infowindow-content">
+                <strong>Cidade: {{ ponto.local_fk }}</strong><br>
+                Endereço: {{ ponto.endereco }} #{{ ponto.ponto }}<br>
+                <img class="infowindow-img" id="lazy-img-{{ forloop.counter0 }}">
+            </div>
           `,
           imgUrl: "{% static 'imagens_pontos/' %}{{ ponto.link }}.webp",
           imgId: "lazy-img-{{ forloop.counter0 }}"
