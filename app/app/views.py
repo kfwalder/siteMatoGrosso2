@@ -27,9 +27,11 @@ def pontos(request):
 
     local_id = request.GET.get('local')  # pegando o filtro da URL
     pontos = Ponto.objects.select_related('local_fk')
+    total_pontos = Ponto.objects.count()
     
     if local_id:
         pontos = pontos.filter(local_fk_id=local_id)
+
 
     pontos = pontos.order_by('local_fk__prioridade', 'id')
 
@@ -46,7 +48,9 @@ def pontos(request):
         'page_obj': page_obj,
         'locais_disponiveis': locais_disponiveis,
         'local_selecionado': int(local_id) if local_id else None,
+        'total_pontos': total_pontos,
     })
+    
 
 def contato(request):
     return render(request, 'contato.html')

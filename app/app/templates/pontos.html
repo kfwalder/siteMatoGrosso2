@@ -5,6 +5,10 @@
 {% block content %}
 <p class="text-base font-semibold text-green-800 mb-2">Para mais pontos, entre em contato</p>
 
+<p class="text-green-800 mb-2">
+    Total de pontos cadastrados: <strong>{{ total_pontos }}</strong>
+</p>
+
 <form method="get" class="mb-4 text-base font-semibold text-green-800">
     <label for="local" class="mr-2 font-medium">Filtrar por Local:</label>
     <select name="local" id="local" onchange="this.form.submit()" class="border rounded px-2 py-1">
