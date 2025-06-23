@@ -180,7 +180,7 @@ def lista_uploads(request):
 def secrets(request):
     return render(request, 'secrets.html')
 
-def testeMap(request):
+def mapa(request):
     # Primeiro filtro no banco
     pontos_qs = Ponto.objects.filter(
         latitude__isnull=False,
@@ -202,7 +202,7 @@ def testeMap(request):
             # Ignora se não for número válido
             continue
 
-    return render(request, 'testeMap.html', {
+    return render(request, 'mapa.html', {
         'pontos': pontos,
     })
 

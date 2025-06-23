@@ -14,7 +14,7 @@ urlpatterns = [
     path('upload_imagem', views.upload_imagem, name='upload_imagem'),
     path('lista_uploads', views.lista_uploads, name='lista_uploads'),
     path('secrets', views.secrets, name='secrets'),
-    path('testeMap', views.testeMap, name='testeMap')
+    path('mapa', views.mapa, name='mapa')
 ]
 
 if settings.DEBUG:
