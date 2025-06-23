@@ -29,6 +29,10 @@
 {% block subtitulo %}Mapa{% endblock %}
 {% block content %}
 
+    <div class="flex items-center gap-4">
+      Clique em <img src="{% static 'imagens/tela_cheia.png' %}"> para um uso mais simplificado do mapa.
+    </div>
+    
     <div id="map"></div>
     <script>
       const locations = [
@@ -59,16 +63,6 @@
           }
         });
 
-        if (document.fullscreenElement == null) {
-          if (map.requestFullscreen) {
-            map.requestFullscreen();
-          } else if (map.webkitRequestFullscreen) {
-            map.webkitRequestFullscreen();
-          } else if (map.msRequestFullscreen) {
-            map.msRequestFullscreen();
-          }
-        }
-
         const infoWindow = new google.maps.InfoWindow();
 
         const markers = locations.map((loc) => {
@@ -89,6 +83,7 @@
         });
 
         new markerClusterer.MarkerClusterer({ map, markers });
+
       }
 
       window.onload = initMap;
