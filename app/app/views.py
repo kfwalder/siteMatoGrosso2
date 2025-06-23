@@ -221,7 +221,7 @@ def mapa_old(request):
 
 
 def pontos_json(request):
-    time.sleep(5)
+    #time.sleep(5)
     pontos_qs = Ponto.objects.filter(
         latitude__isnull=False,
         longitude__isnull=False
