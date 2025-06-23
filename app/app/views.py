@@ -187,7 +187,7 @@ def secrets(request):
     return render(request, 'secrets.html')
 
 def mapa(request):
-    return render(request, 'mapa2.html')
+    return render(request, 'mapa.html')
 
 
 #não é mais usado
