@@ -1,4 +1,5 @@
 import csv
+import time
 from django.shortcuts import redirect, render, HttpResponse
 from django.template import loader
 from .forms import UploadCSVForm, ImagemUploadForm 
@@ -6,9 +7,9 @@ from .models import Ponto, Local, ImagemUpload
 from django.contrib import messages
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
-
 from django.core.paginator import Paginator
 from django.db.models import Count
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -186,6 +187,11 @@ def secrets(request):
     return render(request, 'secrets.html')
 
 def mapa(request):
+    return render(request, 'mapa2.html')
+
+
+#não é mais usado
+def mapa_old(request):
     # Primeiro filtro no banco
     pontos_qs = Ponto.objects.filter(
         latitude__isnull=False,
@@ -210,4 +216,39 @@ def mapa(request):
     return render(request, 'mapa.html', {
         'pontos': pontos,
     })
+
+
+
+
+def pontos_json(request):
+    time.sleep(5)
+    pontos_qs = Ponto.objects.filter(
+        latitude__isnull=False,
+        longitude__isnull=False
+    ).exclude(
+        latitude='',
+        longitude=''
+    )
+
+    pontos_data = []
+    for i, p in enumerate(pontos_qs):
+        try:
+            lat = float(p.latitude)
+            lng = float(p.longitude)
+            if (-90 <= lat <= 90 and -180 <= lng <= 180 and lat != 0 and lng != 0):
+                pontos_data.append({
+                    'lat': lat,
+                    'lng': lng,
+                    'info': f"<div style='max-width:90vw; min-width:200px;'>"
+                            f"<strong>Cidade: {p.local_fk}</strong><br>"
+                            f"Endereço: {p.endereco} #{p.ponto}<br>"
+                            f"<img class='infowindow-img' id='lazy-img-{i}' style='width:100%; height:auto; display:block;'>"
+                            f"</div>",
+                    'imgUrl': f"/static/imagens_pontos/{p.link}.webp",
+                    'imgId': f"lazy-img-{i}"
+                })
+        except (ValueError, TypeError):
+            continue
+
+    return JsonResponse({'pontos': pontos_data})
 

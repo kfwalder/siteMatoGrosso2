@@ -34,24 +34,21 @@
     </div>
     
     <div id="map"></div>
+
+    <div id="loader" style="
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 999;
+        background: rgba(255,255,255,0.8);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: bold;
+    ">
+        Carregando pontos...
+    </div>
     <script>
-      const locations = [
-        {% for ponto in pontos %}
-        {
-          lat: {{ ponto.latitude }},
-          lng: {{ ponto.longitude }},
-          info: `
-            <div class="infowindow-content">
-                <strong>Cidade: {{ ponto.local_fk }}</strong><br>
-                Endereço: {{ ponto.endereco }} #{{ ponto.ponto }}<br>
-                <img class="infowindow-img" id="lazy-img-{{ forloop.counter0 }}">
-            </div>
-          `,
-          imgUrl: "{% static 'imagens_pontos/' %}{{ ponto.link }}.webp",
-          imgId: "lazy-img-{{ forloop.counter0 }}"
-        },
-        {% endfor %}
-      ];
 
       function initMap() {
         const map = new google.maps.Map(document.getElementById("map"), {
@@ -65,24 +62,38 @@
 
         const infoWindow = new google.maps.InfoWindow();
 
-        const markers = locations.map((loc) => {
-          const marker = new google.maps.Marker({
-            position: { lat: loc.lat, lng: loc.lng }
-          });
+        // Mostra loader
+        document.getElementById("loader").style.display = "block";
 
-          marker.addListener("click", () => {
-            infoWindow.setContent(loc.info);
-            infoWindow.open(map, marker);
+        // Carrega pontos via AJAX
+        fetch("{% url 'pontos_json' %}")
+          .then(response => response.json())
+          .then(data => {
+            const markers = data.pontos.map(loc => {
+              const marker = new google.maps.Marker({
+                position: { lat: loc.lat, lng: loc.lng }
+              });
 
-            google.maps.event.addListenerOnce(infoWindow, 'domready', () => {
-              document.getElementById(loc.imgId).src = loc.imgUrl;
+              marker.addListener("click", () => {
+                infoWindow.setContent(loc.info);
+                infoWindow.open(map, marker);
+                google.maps.event.addListenerOnce(infoWindow, 'domready', () => {
+                  document.getElementById(loc.imgId).src = loc.imgUrl;
+                });
+              });
+
+              return marker;
             });
+
+            new markerClusterer.MarkerClusterer({ map, markers });
+
+            // Esconde loader
+            document.getElementById("loader").style.display = "none";
+          })
+          .catch(err => {
+            console.error("Erro ao carregar pontos:", err);
+            document.getElementById("loader").innerText = "Erro ao carregar pontos";
           });
-
-          return marker;
-        });
-
-        new markerClusterer.MarkerClusterer({ map, markers });
 
       }
 
@@ -90,6 +101,3 @@
     </script>
 
 {% endblock %}
-
-
-
