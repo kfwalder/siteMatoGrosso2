@@ -32,16 +32,21 @@ def pontos(request):
     if local_id:
         pontos = pontos.filter(local_fk_id=local_id)
 
-    #pontos = pontos.order_by('local_fk__prioridade', 'id')
+    pontos = pontos.order_by('local_fk__prioridade', 'id')
 
     paginator = Paginator(pontos, 12)  # 12 por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    #locais_disponiveis = Local.objects.order_by('prioridade')
+    locais_disponiveis = Local.objects.annotate(
+        total_pontos=Count('ponto')
+    ).order_by('local')
+
+    '''
     locais_disponiveis = Local.objects.annotate(
         total_pontos=Count('ponto')
     ).order_by('-total_pontos', 'local')  # ordena do maior para menor
+    '''
 
     return render(request, 'pontos.html', {
         'page_obj': page_obj,
